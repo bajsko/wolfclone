@@ -1,0 +1,28 @@
+=======WOLFCLONE=========
+
+Architectural Design
+--------------------
+
+Modules:
+- System
+- Renderer
+- Game
+
+
+System
+------
+- Creates window, polls events
+- Aquires keyboard input
+- Creates renderer and game
+- Let GLFW handle most of this
+- OS Specifics if nescessary
+
+Renderer
+-------
+- The all mighty raycaster
+
+Game
+----
+- Responsible for everything game-related,
+eg player, enemies, gameplay in general
+
