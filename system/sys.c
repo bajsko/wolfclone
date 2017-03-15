@@ -20,12 +20,6 @@ static bool m_mouseButtons[8];
 static int m_mouseX;
 static int m_mouseY;
 
-void SYS_SetWindowDimensions(unsigned int width, unsigned int height)
-{
-    m_windowWidth = width;
-    m_windowHeight = height;
-}
-
 void SYS_KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if(action == GLFW_PRESS)

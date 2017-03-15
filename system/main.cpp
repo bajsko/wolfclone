@@ -24,10 +24,8 @@
     #pragma clang pop
 #endif
 
-#define WIDTH 640
-#define HEIGHT 480
-
 #include "sys.h"
+#include "renderer.h"
 
 int main(int argc, const char** argv)
 {
@@ -45,16 +43,21 @@ int main(int argc, const char** argv)
     
     glfwMakeContextCurrent(m_window);
     
-    SYS_SetWindowDimensions(WIDTH, HEIGHT);
-    
     glfwSetKeyCallback(m_window, SYS_KeyCallback);
     glfwSetCursorPosCallback(m_window, SYS_MousePositionCallback);
     glfwSetMouseButtonCallback(m_window, SYS_MouseButtonCallback);
     
+    Renderer m_renderer;
+    m_renderer.setup();
+    
     while(!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SYS_dprintf("mouse: %d,%d\n", SYS_mouse().x, SYS_mouse().y);
+        
+        glDisable(GL_DEPTH_TEST);
+        m_renderer.render();
+        glEnable(GL_DEPTH_TEST);
+        
         glfwSwapBuffers(m_window);
         glfwPollEvents();
     }

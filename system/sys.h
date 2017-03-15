@@ -14,6 +14,11 @@
 #ifndef sys_h
 #define sys_h
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #ifdef __APPLE__
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wdocumentation"
@@ -26,22 +31,23 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
-typedef struct mouse_info
-{
-    int x,y;
-    bool buttons[8];
-} mouse_info_t;
-
+    
+#define WIDTH 640
+#define HEIGHT 480
+    
 //set this to false if SYS_dprintf should not print out [DEBUG] before message
 #define SYS_PRINT_DEBUG_MARK 1
 //set this to true if SYS_dlogf should include a timestamp
 #define SYS_LOG_INCLUDE_TIMESTAMP 0
 //set this to true if system should clamp mouse coordinates to window coordinates
 #define SYS_CLAMP_MOUSE_COORDS 1
-
-void SYS_SetWindowDimensions(unsigned int width, unsigned int height);
-
+    
+typedef struct mouse_info
+{
+    int x,y;
+    bool buttons[8];
+} mouse_info_t;
+    
 void SYS_KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void SYS_MousePositionCallback(GLFWwindow* window, double xpos, double ypos);
 void SYS_MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
@@ -54,4 +60,7 @@ mouse_info_t SYS_mouse();
 void SYS_dprintf(const char* format, ...);
 int SYS_dlogf(const char* format, ...);
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* sys_h */
