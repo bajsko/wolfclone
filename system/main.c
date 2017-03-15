@@ -45,13 +45,19 @@ int main(int argc, const char** argv)
     
     glfwMakeContextCurrent(m_window);
     
+    SYS_SetWindowDimensions(WIDTH, HEIGHT);
+    
+    glfwSetKeyCallback(m_window, SYS_KeyCallback);
+    glfwSetCursorPosCallback(m_window, SYS_MousePositionCallback);
+    glfwSetMouseButtonCallback(m_window, SYS_MouseButtonCallback);
+    
     while(!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SYS_dprintf("mouse: %d,%d\n", SYS_mouse().x, SYS_mouse().y);
         glfwSwapBuffers(m_window);
         glfwPollEvents();
     }
-    
     glfwDestroyWindow(m_window);
     
     return 0;
