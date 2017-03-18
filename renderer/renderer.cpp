@@ -9,18 +9,12 @@
  */
 
 #include "renderer.h"
-#include "matrix4x4.h"
-#include "vec3.h"
-#include "ray.h"
 #include "sys.h"
 
 #define mapWidth 6
 #define mapHeight 6
 
 unsigned char frameBuffer[WIDTH * HEIGHT * 3] = {1};
-
-vec3f pos;
-vec3f dir;
 
 int worldMap[mapWidth][mapHeight] =
 {
@@ -51,11 +45,26 @@ void Renderer::setup()
 {
     pos = vec3f(1,1,0);
     dir = vec3f(1,0,0);
+    //tan(fov/2) = planey/dir
+}
+
+void Renderer::ComputeScreen()
+{
+    //Projection plane, originally 2x2 units;
+    //multiply x by aspect ratio
+    //multiply y by tan(fov/2)
+    float aspect = (float)WIDTH/(float)HEIGHT;
+    float tanfov = (float)tan(fov/2);
+    
     for(int x = 0; x < WIDTH; x++)
-        SetPixel(x, 0, vec3f(255,255,255));
+    {
+        float xx = 2 * (float)x/(float)WIDTH -1;
+    }
+    
 }
 
 void Renderer::render()
 {
+    ComputeScreen();
     glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, frameBuffer);
 }

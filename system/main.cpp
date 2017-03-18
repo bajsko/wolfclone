@@ -47,7 +47,7 @@ int main(int argc, const char** argv)
     glfwSetCursorPosCallback(m_window, SYS_MousePositionCallback);
     glfwSetMouseButtonCallback(m_window, SYS_MouseButtonCallback);
     
-    Renderer m_renderer;
+    Renderer m_renderer(66 * DEG_TO_RAD);
     m_renderer.setup();
     
     while(!glfwWindowShouldClose(m_window))

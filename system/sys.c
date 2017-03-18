@@ -12,9 +12,6 @@
 #include <string.h>
 #include "sys.h"
 
-static unsigned int m_windowWidth;
-static unsigned int m_windowHeight;
-
 static bool m_keys[255];
 static bool m_mouseButtons[8];
 static int m_mouseX;
@@ -36,13 +33,13 @@ void SYS_MousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 #if SYS_CLAMP_MOUSE_COORDS
     if(m_mouseX < 0)
         m_mouseX = 0;
-    else if(m_mouseX > m_windowWidth)
-        m_mouseX = m_windowWidth;
+    else if(m_mouseX > WIDTH)
+        m_mouseX = WIDTH;
     
     if(m_mouseY < 0)
         m_mouseY = 0;
-    else if(m_mouseY > m_windowHeight)
-        m_mouseY = m_windowHeight;
+    else if(m_mouseY > HEIGHT)
+        m_mouseY = HEIGHT;
 #endif
 }
 
