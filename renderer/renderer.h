@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include "matrix4x4.h"
 #include "vec3.h"
+#include "vec2.h"
 #include "ray.h"
 
 class Renderer
@@ -29,8 +30,9 @@ public:
     void render();
     
     float fov;
-    vec3f dir;
-    vec3f pos;
+	float rot;
+    vec2f dir;
+    vec2f pos;
 };
 
 #endif /* renderer_h */

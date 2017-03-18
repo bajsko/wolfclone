@@ -32,16 +32,19 @@ extern "C"
 #include <stdbool.h>
 #include <stdlib.h>
     
-#define WIDTH 640
+#define WIDTH 480
 #define HEIGHT 480
+
+#define ENGINE_NAME "BIG BAD WOLF ENGINE"
+#define ENGINE_VERSION 0.1
     
 //set this to false if SYS_dprintf should not print out [DEBUG] before message
-#define SYS_PRINT_DEBUG_MARK 1
+#define SYS_PRINT_DEBUG_MARK 0
 //set this to true if SYS_dlogf should include a timestamp
 #define SYS_LOG_INCLUDE_TIMESTAMP 0
 //set this to true if system should clamp mouse coordinates to window coordinates
 #define SYS_CLAMP_MOUSE_COORDS 1
-    
+
 typedef struct mouse_info
 {
     int x,y;

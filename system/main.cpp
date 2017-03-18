@@ -29,6 +29,9 @@
 
 int main(int argc, const char** argv)
 {
+
+	SYS_dprintf("Intiating %s version %.2f\n", ENGINE_NAME, ENGINE_VERSION);
+
     GLFWwindow* m_window;
     
     if(!glfwInit())
@@ -43,13 +46,21 @@ int main(int argc, const char** argv)
     
     glfwMakeContextCurrent(m_window);
     
+	SYS_dprintf("Regestrating callbacks...");
+
     glfwSetKeyCallback(m_window, SYS_KeyCallback);
     glfwSetCursorPosCallback(m_window, SYS_MousePositionCallback);
     glfwSetMouseButtonCallback(m_window, SYS_MouseButtonCallback);
     
+	SYS_dprintf("Done\n");
+
+	SYS_dprintf("Creating renderer...");
     Renderer m_renderer(66 * DEG_TO_RAD);
     m_renderer.setup();
+	SYS_dprintf("Done\n");
     
+	SYS_dprintf("Initiation done\n");
+
     while(!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
