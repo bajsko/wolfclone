@@ -21,18 +21,20 @@
 class Renderer
 {
 private:
+    void DrawVertical(int column, int upperBound, int lowerBound, vec3f color);
     void ComputeScreen();
 public:
     Renderer(float f) {this->fov = f;}
     ~Renderer() {}
     
     void setup();
-    void render();
+    void render(float dt);
     
     float fov;
 	float rot;
     vec2f dir;
     vec2f pos;
+    vec2f plane;
 };
 
 #endif /* renderer_h */

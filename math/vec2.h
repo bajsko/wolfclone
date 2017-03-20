@@ -39,6 +39,7 @@ public:
 	Vec2<T>& operator *= (const T &r) { x *= r, y *= r; return *this; }
 
 	void operator += (const Vec2<T> &v) { x += v.x; y += v.y; }
+    void operator -= (const Vec2<T> &v) { x -= v.x; y -= v.y; }
 
 	T length() const { return (x * x + y * y); }
 	T lengthSquared() const { return sqrt((x * x + y * y)); }

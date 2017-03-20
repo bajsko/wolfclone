@@ -37,6 +37,8 @@ int main(int argc, const char** argv)
     if(!glfwInit())
         return -1;
     
+    float time = glfwGetTime();
+    
     m_window = glfwCreateWindow(WIDTH, HEIGHT, "WolfClone", NULL, NULL);
     if(!m_window)
     {
@@ -59,14 +61,21 @@ int main(int argc, const char** argv)
     m_renderer.setup();
 	SYS_dprintf("Done\n");
     
+    glfwSwapInterval(1);
+    
 	SYS_dprintf("Initiation done\n");
 
     while(!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        float oldTime = time;
+        time = glfwGetTime();
+        float dt = (time - oldTime);
+        //SYS_dprintf("FPS: %f\n", 1 / dt);
+        
         glDisable(GL_DEPTH_TEST);
-        m_renderer.render();
+        m_renderer.render(dt);
         glEnable(GL_DEPTH_TEST);
         
         glfwSwapBuffers(m_window);
