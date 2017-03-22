@@ -70,7 +70,7 @@ inline void rotVec(vec2f& v, float rads)
 
 void Renderer::setup()
 {
-    pos = vec2f(1,8);
+    pos = vec2f(2,8);
     dir = vec2f(1,0).normalize();
     plane = vec2f(0,1.0f);
 	rot = 0 * DEG_TO_RAD; //equal to (1,0)
@@ -103,7 +103,6 @@ void Renderer::ComputeScreen()
 	//projection plane size: 2x2 units
 	float lengthToProjPlane = 1 / tan(fov / 2); //ppsize/2/tan(fov/2) (right triangle)
 
-    Vec2Util::debug_print(dir.normalize());
 	vec2f projectionPlanePos = pos + dir * lengthToProjPlane;
     
     for(int x = 0; x < WIDTH; x++)
@@ -166,20 +165,27 @@ void Renderer::ComputeScreen()
 
             //actual height / distance from proj plane * distance to proj plane
         float perpWallDist = 0;
-        vec2f sideDist(sideDistX, sideDistY);
         
-        float wallDist = (vec2f(mapX - pos.x, mapY - pos.y)).lengthSquared();
-        
-        perpWallDist = (1/wallDist) * lengthToProjPlane;
+        vec2f dist = vec2f((mapX - pos.x + (1 - stepX)/2)/rayDir.x, (mapY - pos.y + (1-stepY)/2)/rayDir.y);
     
-        int lineHeight = perpWallDist * HEIGHT;
+        float cos_theta = dir.dot(rayDir);
+        if(side == 0) perpWallDist = dist.x;
+        else perpWallDist = dist.y;
+        
+        perpWallDist *= cos_theta;
+        float projHeight = (1/perpWallDist);
+        
+        
+        int lineHeight = projHeight * HEIGHT;
         int upperBound = lineHeight/2 + HEIGHT/2;
         int lowerBound = -lineHeight / 2 + HEIGHT/2;
         
         float far = 25;
-        float col01 = wallDist / far;
+        float col01 = perpWallDist / far;
         
         vec3f color = vec3f(255-col01*255,255-col01*255,255-col01*255); //very bad red
+        if(side == 0)
+            color *= 1/2.0f;
         
         /*switch (hit) {
             case 1:
@@ -207,12 +213,28 @@ float mouseX = 0;
 void Renderer::render(float dt)
 {
     
-    dir.normalize();
+    float moveSpeed = 5.0f * dt;
     
+    dir.normalize();
     if(SYS_keydown(GLFW_KEY_W))
-        pos += dir * 0.2f;
+    {
+        if(worldMap[int(pos.x + dir.x * moveSpeed)][int(pos.y)] == 0) {
+            pos.x += dir.x * moveSpeed;
+            printf("hello %f\n", pos.x);
+        }
+        if(worldMap[(int)pos.x][(int)(pos.y + dir.y * moveSpeed)] == 0) {
+            pos.y += dir.y * moveSpeed;
+        }
+    }
     else if(SYS_keydown(GLFW_KEY_S))
-        pos -= dir * 0.2f;
+    {
+        if(worldMap[(int)(pos.x - dir.x * moveSpeed)][(int)(pos.y)] == 0) {
+            pos.x -= dir.x * moveSpeed;
+        }
+        if(worldMap[(int)pos.x][(int)(pos.y - dir.y * moveSpeed)] == 0) {
+            pos.y -= dir.y * moveSpeed;
+        }
+    }
     
     lastX = mouseX;
     mouseX = SYS_mouse().x;
@@ -227,8 +249,6 @@ void Renderer::render(float dt)
         rotVec(dir, -rotSpeed);
         rotVec(plane, -rotSpeed);
     }
-    
-    Vec2Util::debug_print(pos);
     
     ComputeScreen();
     glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, frameBuffer);
